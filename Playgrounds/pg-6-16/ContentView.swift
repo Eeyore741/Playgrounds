@@ -21,12 +21,12 @@ extension Book: Identifiable { } // To be able to use in SwiftUI ForEach loop
 
 extension Book {
     static let localShelf: [Book] = [
-        Book(id: UUID(), name: "A Tale of Two Cities", color: SimpleColor(255, 0, 0), rating: 1),
-        Book(id: UUID(), name: "The Little Prince", color: SimpleColor(255, 96, 208), rating: 2),
-        Book(id: UUID(), name: "The Alchemist", color: SimpleColor(100, 100, 255), rating: 3),
-        Book(id: UUID(), name: "Harry Potter and the Philosopher's Stone", color: SimpleColor(80, 0, 255), rating: 4),
-        Book(id: UUID(), name: "And Then There Were None", color: SimpleColor(0, 192, 0), rating: 5),
-        Book(id: UUID(), name: "Alice's Adventures in Wonderland", color: SimpleColor(255, 160, 16), rating: 0),
+        Book(id: UUID(), name: "A Tale of Two Cities", color: SimpleColor(255/255, 0, 0), rating: 1),
+        Book(id: UUID(), name: "The Little Prince", color: SimpleColor(255/255, 96/255, 208/255), rating: 2),
+        Book(id: UUID(), name: "The Alchemist", color: SimpleColor(150/255, 100/255, 180/255), rating: 3),
+        Book(id: UUID(), name: "Harry Potter and the Philosopher's Stone", color: SimpleColor(80/255, 0, 255/255), rating: 4),
+        Book(id: UUID(), name: "And Then There Were None", color: SimpleColor(0, 192/255, 0), rating: 5),
+        Book(id: UUID(), name: "Alice's Adventures in Wonderland", color: SimpleColor(255/255, 160/255, 16/255), rating: 0),
     ]
 }
 
@@ -117,6 +117,7 @@ struct ContentView: View {
                         Text(book.name)
                             .font(.title2)
                             .padding()
+                            .multilineTextAlignment(.center)
                     }
                 }
             }
