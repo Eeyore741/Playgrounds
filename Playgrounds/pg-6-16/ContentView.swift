@@ -11,30 +11,22 @@ import Combine
 typealias SimpleColor = (Double, Double, Double)
 
 struct Book {
-    let id: Int
+    let id: UUID
     let name: String
-//    let color: SimpleColor
+    let color: SimpleColor
     let rating: Int
 }
 
-//extension Book: Identifiable { } // To be able to use in SwiftUI ForEach loop
-//extension Book: Sendable { }
-//extension Book: Hashable { }
+extension Book: Identifiable { } // To be able to use in SwiftUI ForEach loop
 
 extension Book {
     static let localShelf: [Book] = [
-        Book(id: 1, name: "A Tale of Two Cities", rating: 1),
-        Book(id: 2, name: "The Little Prince", rating: 2),
-        Book(id: 3, name: "The Alchemist", rating: 3),
-        Book(id: 4, name: "Harry Potter and the Philosopher's Stone", rating: 4),
-        Book(id: 5, name: "And Then There Were None", rating: 5),
-        Book(id: 6, name: "Alice's Adventures in Wonderland", rating: 0),
-//        Book(id: UUID(), name: "A Tale of Two Cities", color: SimpleColor(255, 0, 0), rating: 1),
-//        Book(id: UUID(), name: "The Little Prince", color: SimpleColor(255, 96, 208), rating: 2),
-//        Book(id: UUID(), name: "The Alchemist", color: SimpleColor(160, 32, 255), rating: 3),
-//        Book(id: UUID(), name: "Harry Potter and the Philosopher's Stone", color: SimpleColor(80, 208, 255), rating: 4),
-//        Book(id: UUID(), name: "And Then There Were None", color: SimpleColor(0, 192, 0), rating: 5),
-//        Book(id: UUID(), name: "Alice's Adventures in Wonderland", color: SimpleColor(255, 160, 16), rating: 0),
+        Book(id: UUID(), name: "A Tale of Two Cities", color: SimpleColor(255, 0, 0), rating: 1),
+        Book(id: UUID(), name: "The Little Prince", color: SimpleColor(255, 96, 208), rating: 2),
+        Book(id: UUID(), name: "The Alchemist", color: SimpleColor(100, 100, 255), rating: 3),
+        Book(id: UUID(), name: "Harry Potter and the Philosopher's Stone", color: SimpleColor(80, 0, 255), rating: 4),
+        Book(id: UUID(), name: "And Then There Were None", color: SimpleColor(0, 192, 0), rating: 5),
+        Book(id: UUID(), name: "Alice's Adventures in Wonderland", color: SimpleColor(255, 160, 16), rating: 0),
     ]
 }
 
@@ -56,8 +48,6 @@ actor LocalBooksProvider: BooksProider {
     nonisolated var booksStream: AsyncStream<[Book]> {
         AsyncStream { continuation in
             Task { await self.addContinuation(continuation) }
-//            self.continuation = continuation
-//            continuation.yield(books)
         }
     }
     
@@ -77,7 +67,7 @@ actor LocalBooksProvider: BooksProider {
     func fetchBooks() async throws {
         try await Task.sleep(for: .seconds(2))
         
-        self.books = [] // Book.localShelf
+        self.books = await Book.localShelf
         self.continuations.forEach { $0.yield(self.books) }
     }
     
@@ -89,32 +79,29 @@ actor LocalBooksProvider: BooksProider {
 @MainActor
 final class BooksViewModel: ObservableObject {
     
-//    @Published
-    var books: [Book] = []
-//    private let booksProider: any BooksProider
-//    private var task: Task<Void, Never>?
+    @Published var books: [Book] = []
+    private let booksProider: any BooksProider
+    private var task: Task<Void, Never>?
     
     init(booksProider: BooksProider) {
-//        self.booksProider = booksProider
-//        self.task = Task {
-//            for await books in await booksProider.booksStream {
-//                self.books = books
-//            }
-//        }
+        self.booksProider = booksProider
+        self.task = Task {
+            for await books in booksProider.booksStream {
+                self.books = books
+            }
+        }
     }
     
     func onAppear() async {
         guard self.books.isEmpty else { return }
         
-//        for await books in booksProider.booksStream {
-//            self.books = books
-//        }
+        try? await self.booksProider.fetchBooks()
     }
 }
 
 struct ContentView: View {
     
-    @StateObject var viewModel: BooksViewModel
+    @ObservedObject var viewModel: BooksViewModel
     
     var body: some View {
         ScrollView {
@@ -122,11 +109,20 @@ struct ContentView: View {
                 columns: [GridItem(.adaptive(minimum: 120), spacing: 20)],
                 spacing: 20
             ) {
-                Text("")
-                ForEach(self.viewModel.books, id: \.id) { book in
-                    Text("BOOK: \(book.title)")
+                ForEach(self.viewModel.books) { book in
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 8)
+                            .fill(Color(red: book.color.0, green: book.color.1, blue: book.color.2))
+                            .shadow(radius: 1)
+                        Text(book.name)
+                            .font(.title2)
+                            .padding()
+                    }
                 }
             }
+        }
+        .task {
+            await self.viewModel.onAppear()
         }
         .padding()
     }
