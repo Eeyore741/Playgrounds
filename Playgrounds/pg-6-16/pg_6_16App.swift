@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct pg_6_16App: App {
+    
+    @ObservedObject private(set) var viewModel: BooksViewModel = .init(booksProider: LocalBooksProvider())
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(viewModel: viewModel)
         }
     }
 }
