@@ -1,0 +1,17 @@
+//
+//  pg_6_16App.swift
+//  pg-6-16
+//
+//  Created by Vitalii Kuznetsov on 2025-12-29.
+//
+
+import SwiftUI
+
+@main
+struct pg_6_16App: App {
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+        }
+    }
+}

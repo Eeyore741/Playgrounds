@@ -8,12 +8,18 @@
 
 /* Begin PBXFileReference section */
 		9571D5662EF9FD2400B7E728 /* pg-5-16.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "pg-5-16.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9571D57E2F02E04500B7E728 /* pg-6-16.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "pg-6-16.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		9571D5682EF9FD2400B7E728 /* Playgrounds */ = {
+		9571D5682EF9FD2400B7E728 /* pg-5-16 */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Playgrounds;
+			path = "pg-5-16";
+			sourceTree = "<group>";
+		};
+		9571D57F2F02E04500B7E728 /* pg-6-16 */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "pg-6-16";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -26,13 +32,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9571D57B2F02E04500B7E728 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		9571D55D2EF9FD2400B7E728 = {
 			isa = PBXGroup;
 			children = (
-				9571D5682EF9FD2400B7E728 /* Playgrounds */,
+				9571D5682EF9FD2400B7E728 /* pg-5-16 */,
+				9571D57F2F02E04500B7E728 /* pg-6-16 */,
 				9571D5672EF9FD2400B7E728 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +55,7 @@
 			isa = PBXGroup;
 			children = (
 				9571D5662EF9FD2400B7E728 /* pg-5-16.app */,
+				9571D57E2F02E04500B7E728 /* pg-6-16.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -61,13 +76,35 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				9571D5682EF9FD2400B7E728 /* Playgrounds */,
+				9571D5682EF9FD2400B7E728 /* pg-5-16 */,
 			);
 			name = "pg-5-16";
 			packageProductDependencies = (
 			);
 			productName = Playgrounds;
 			productReference = 9571D5662EF9FD2400B7E728 /* pg-5-16.app */;
+			productType = "com.apple.product-type.application";
+		};
+		9571D57D2F02E04500B7E728 /* pg-6-16 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9571D5882F02E04600B7E728 /* Build configuration list for PBXNativeTarget "pg-6-16" */;
+			buildPhases = (
+				9571D57A2F02E04500B7E728 /* Sources */,
+				9571D57B2F02E04500B7E728 /* Frameworks */,
+				9571D57C2F02E04500B7E728 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				9571D57F2F02E04500B7E728 /* pg-6-16 */,
+			);
+			name = "pg-6-16";
+			packageProductDependencies = (
+			);
+			productName = "pg-6-16";
+			productReference = 9571D57E2F02E04500B7E728 /* pg-6-16.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -81,6 +118,9 @@
 				LastUpgradeCheck = 2620;
 				TargetAttributes = {
 					9571D5652EF9FD2400B7E728 = {
+						CreatedOnToolsVersion = 26.2;
+					};
+					9571D57D2F02E04500B7E728 = {
 						CreatedOnToolsVersion = 26.2;
 					};
 				};
@@ -100,6 +140,7 @@
 			projectRoot = "";
 			targets = (
 				9571D5652EF9FD2400B7E728 /* pg-5-16 */,
+				9571D57D2F02E04500B7E728 /* pg-6-16 */,
 			);
 		};
 /* End PBXProject section */
@@ -112,10 +153,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9571D57C2F02E04500B7E728 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		9571D5622EF9FD2400B7E728 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9571D57A2F02E04500B7E728 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -320,6 +375,74 @@
 			};
 			name = Release;
 		};
+		9571D5862F02E04600B7E728 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.vitalii.pg-6-16";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		9571D5872F02E04600B7E728 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.vitalii.pg-6-16";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -337,6 +460,15 @@
 			buildConfigurations = (
 				9571D5722EF9FD2500B7E728 /* Debug */,
 				9571D5732EF9FD2500B7E728 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9571D5882F02E04600B7E728 /* Build configuration list for PBXNativeTarget "pg-6-16" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9571D5862F02E04600B7E728 /* Debug */,
+				9571D5872F02E04600B7E728 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
