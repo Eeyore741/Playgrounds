@@ -122,10 +122,20 @@ struct ContentView: View {
                 }
             }
         }
+        .navigationTitle("Books View")
+        .toolbar { toolbar() }
         .task {
             await self.viewModel.onAppear()
         }
         .padding()
+    }
+    
+    private func toolbar() -> some ToolbarContent {
+        ToolbarItemGroup(placement: .navigationBarTrailing) {
+            Button("Fetch") {
+                
+            }
+        }
     }
 }
 

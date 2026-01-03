@@ -14,7 +14,9 @@ struct pg_6_16App: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView(viewModel: viewModel)
+            NavigationStack {
+                ContentView(viewModel: viewModel)
+            }
         }
     }
 }
