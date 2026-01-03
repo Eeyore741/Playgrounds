@@ -11,6 +11,14 @@ import Combine
 // To not to use SwiftUI in data model.
 typealias SimpleColor = (Double, Double, Double)
 
+func randomSampleColor() -> SimpleColor {
+    (
+        Double(Int.random(in: 0...255)) / 255,
+        Double(Int.random(in: 0...255)) / 255,
+        Double(Int.random(in: 0...255)) / 255,
+    )
+}
+
 struct Book {
     let id: UUID
     let name: String
