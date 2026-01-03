@@ -58,12 +58,13 @@ protocol BooksProider: Actor {
 actor LocalBooksProvider: BooksProider {
     
     private var books: [Book] = []
-    private var continuations: [AsyncStream<[Book]>.Continuation] = []
+    private var continuations: [UUID: AsyncStream<[Book]>.Continuation] = [:]
     
     // Var in Actor is async for public use but does not require await for internal use.
     // Exposed var are not recommended for Actor. Preferred: getState(), getStream().
     nonisolated var booksStream: AsyncStream<[Book]> {
         AsyncStream { continuation in
+            // Here we use Unstructured Task, lifetime isn't tied to the scope where it was created.
             Task { await self.addContinuation(continuation) }
         }
     }
@@ -83,27 +84,30 @@ actor LocalBooksProvider: BooksProider {
         try await Task.sleep(for: .seconds(2))
         
         self.books = await Book.localShelf
-        self.continuations.forEach { $0.yield(self.books) }
+        self.continuations.forEach { $0.value.yield(self.books) }
     }
     
     func addBook(_ book: Book) async throws {
+        try await Task.sleep(for: .seconds(1))
         
+        self.books.append(book)
+        self.continuations.forEach { $0.value.yield(self.books) }
     }
     
     // Func is private but still has to be async since:
     // 1. Its being called outside of actor scope (passed in closure of public func) possibly on nonisolated scope.
     // 2. It mutates actor state (private var changes).
     private func addContinuation(_ continuation: AsyncStream<[Book]>.Continuation) async {
-        self.continuations.append(continuation)
-        continuation.yield(self.books)
-        
+        let key = UUID()
+        self.continuations[key] = continuation
         continuation.onTermination = { [weak self] _ in
-            Task { await self?.removeContinuation(continuation) }
+            Task { await self?.removeContinuationForKey(key) }
         }
+        continuation.yield(self.books)
     }
     
-    private func removeContinuation(_ continuation: AsyncStream<[Book]>.Continuation) async {
-//        self.continuations.removeAll { $0.hashValue == continuation.hashValue }
+    private func removeContinuationForKey(_ key: UUID) async {
+        self.continuations.removeValue(forKey: key)
     }
 }
 
@@ -118,23 +122,46 @@ final class BooksViewModel: ObservableObject {
     
     init(booksProider: BooksProider) {
         self.booksProider = booksProider
-        self.task = Task {
-            // await called on actor here is "Actor-hop await".
-            for await books in await booksProider.makeBookAsyncStream() { // in await needed since func is async.
-//            for await books in booksProider.booksStream { // in await is not needed since accessing nonisolated var.
-                self.books = books
-            }
-        }
+        self.startObserving()
     }
     
     deinit {
         self.task?.cancel()
     }
     
-    func onAppear() async {
-        guard self.books.isEmpty else { return }
+    // Not async since better to handle Task logic in view model instead of view
+    func onAppear() {
+        // inherits prio from parent Task, here @MainActor, since called on Actor data provider.
+        // If data provider is class, Task.detached(priority: .background) better to be used.
+        Task(priority: .userInitiated) {
+            guard self.books.isEmpty else { return }
+            
+            try? await self.booksProider.fetchBooks()
+        }
+    }
+    
+    func onAddBook() {
+        Task(priority: .userInitiated) {
+            let newBook = Book(id: UUID(), name: "New Book", color: randomSampleColor(), rating: 3)
+            
+            try? await self.booksProider.addBook(newBook)
+        }
+    }
+    
+    private func startObserving() {
+        self.task?.cancel()
         
-        try? await self.booksProider.fetchBooks()
+        self.task = Task { [weak self] in
+            guard let self,
+                    Task.isCancelled == false
+            else { return }
+            // await called on actor here is "Actor-hop await".
+            for await books in await self.booksProider.makeBookAsyncStream() { // in await needed since func is async.
+//            for await books in booksProider.booksStream { // here: in await is not needed since accessing nonisolated var.
+                if Task.isCancelled { break }
+                self.books = books
+            }
+        }
     }
 }
 
@@ -164,15 +191,15 @@ struct ContentView: View {
         .navigationTitle("Books View")
         .toolbar { toolbar() }
         .task {
-            await self.viewModel.onAppear()
+            self.viewModel.onAppear()
         }
         .padding()
     }
     
     private func toolbar() -> some ToolbarContent {
         ToolbarItemGroup(placement: .navigationBarTrailing) {
-            Button("Fetch") {
-                
+            Button("Add") {
+                self.viewModel.onAddBook()
             }
         }
     }
