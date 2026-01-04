@@ -116,7 +116,7 @@ actor LocalBooksProvider: BooksProider {
 @MainActor
 final class BooksViewModel: ObservableObject {
     
-    @Published var books: [Book] = []
+    @Published private(set) var books: [Book] = []
     private let booksProider: any BooksProider
     private var task: Task<Void, Never>?
     
@@ -188,7 +188,7 @@ struct ContentView: View {
                 }
             }
         }
-        .navigationTitle("Books View")
+        .navigationTitle("pg_6_16App")
         .toolbar { toolbar() }
         .task {
             self.viewModel.onAppear()
